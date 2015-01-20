@@ -1,0 +1,153 @@
+name: "cxxnet"
+input: "data"
+input_dim: 1
+input_dim: 1
+input_dim: 50
+input_dim: 50
+layers {
+  name: "conv0"
+  type: CONVOLUTION
+  bottom: "data"
+  top: "conv0"
+  blobs_lr: 1
+  blobs_lr: 2
+  convolution_param {
+    num_output: 96
+    kernel_size: 5
+    stride: 4
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layers {
+  name: "relu0"
+  type: RELU
+  bottom: "conv0"
+  top: "conv0"
+}
+layers {
+  name: "pool0"
+  type: POOLING
+  bottom: "conv0"
+  top: "pool0"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 1
+  }
+}
+layers {
+  name: "norm1"
+  type: LRN
+  bottom: "pool0"
+  top: "norm1"
+  lrn_param {
+    local_size: 5
+    alpha: 0.0001
+    beta: 0.75
+  }
+}
+
+layers {
+  name: "conv1"
+  type: CONVOLUTION
+  bottom: "norm1"
+  top: "conv1"
+  blobs_lr: 1
+  blobs_lr: 2
+  convolution_param {
+    num_output: 128
+    kernel_size: 5
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layers {
+  name: "relu1"
+  type: RELU
+  bottom: "conv1"
+  top: "conv1"
+}
+layers {
+  name: "pool2"
+  type: POOLING
+  bottom: "conv1"
+  top: "pool2"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+layers {
+  name: "norm2"
+  type: LRN
+  bottom: "pool2"
+  top: "norm2"
+  lrn_param {
+    local_size: 5
+    alpha: 0.0001
+    beta: 0.75
+  }
+}
+
+
+layers {
+  name: "ip1"
+  type: INNER_PRODUCT
+  bottom: "norm2"
+  top: "ip1"
+  blobs_lr: 1
+  blobs_lr: 2
+  inner_product_param {
+    num_output: 2048
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layers {
+  name: "relu3"
+  type: RELU
+  bottom: "ip1"
+  top: "ip1"
+}
+
+
+layers {
+  name: "ip3"
+  type: INNER_PRODUCT
+  bottom: "ip1"
+  top: "ip3"
+  blobs_lr: 1
+  blobs_lr: 2
+  inner_product_param {
+    num_output: 121
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+
+layers {
+  name: "prob"
+  type: SOFTMAX
+  bottom: "ip3"
+  top: "prob"
+}
+
