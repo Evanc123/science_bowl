@@ -1,0 +1,15 @@
+net: "examples/science_bowl/big_net.prototxt"
+test_iter: 240
+test_interval: 2000
+base_lr: 0.001
+lr_policy: "step"
+stepsize: 20000
+display: 20
+max_iter: 40000
+momentum: .90
+gamma: 0.1
+weight_decay: 0.0005
+snapshot: 5000
+snapshot_prefix: "examples/science_bowl/data/solver_2_out"
+solver_mode: GPU
+

@@ -1,0 +1,15 @@
+net: "examples/science_bowl/galaxybowl.prototxt"
+test_iter: 480
+test_interval: 2100 # 270000 / 128 == epoch
+base_lr: 0.001
+lr_policy: "step" #step and fixed
+stepsize: 30000
+display: 20
+max_iter: 100000
+momentum: .9
+gamma: 0.1
+weight_decay: 0.0005
+snapshot: 10000
+snapshot_prefix: "examples/science_bowl/data/galaxybowl"
+solver_mode: GPU
+#solver_type: NESTEROV
